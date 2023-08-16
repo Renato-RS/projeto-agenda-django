@@ -8,6 +8,7 @@ class CategoryAdmin(admin.ModelAdmin):
     list_display = 'name',
     ordering = '-id',
 
+
 @admin.register(models.Contact)
 class ContactAdmin(admin.ModelAdmin):
     list_display = 'id', 'first_name', 'last_name', 'phone',
