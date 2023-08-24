@@ -1,12 +1,22 @@
 from django import forms
+from django.contrib.auth.forms import UserCreationForm
 from django.core.exceptions import ValidationError
 from . import models
 
+
 class ContactForm(forms.ModelForm):
+    picture = forms.ImageField(
+        widget=forms.FileInput(
+            attrs={
+                'accept': 'image/*',
+            }
+        )
+    )
+
     class Meta:
         model = models.Contact
         fields = (
-            'first_name', 'last_name', 'phone', 'email', 'description', 'category',
+            'first_name', 'last_name', 'phone', 'email', 'description', 'category', 'picture',
         )
 
     def clean(self):
@@ -21,5 +31,8 @@ class ContactForm(forms.ModelForm):
             )
             self.add_error('first_name', msg)
             self.add_error('last_name', msg)
-        
+
         return super().clean()
+
+class RegisterForm(UserCreationForm):
+    ...
