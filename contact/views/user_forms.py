@@ -1,8 +1,6 @@
-from django.shortcuts import render
+from django.shortcuts import render, redirect
 from contact.forms import RegisterForm
-
-# Create your views here.
-
+from django.contrib import messages
 
 def register(request):
     form = RegisterForm()
@@ -12,11 +10,14 @@ def register(request):
 
         if form.is_valid():
             form.save()
+            messages.success(request, 'User registered')
+            return redirect('contact:index')
 
-    render(
-        request,
-        'contact/register.html',
-        {
-            'form': form
-        }
-    )
+    return render(
+            request,
+            'contact/register.html',
+            {
+                'form': form
+            }
+        )
+        
