@@ -2,9 +2,10 @@ from django.shortcuts import render, get_object_or_404, redirect
 from django.db.models import Q
 from contact.models import Contact
 from django.core.paginator import Paginator
+from django.contrib.auth.decorators import login_required
 # Create your views here.
 
-
+@login_required(login_url='contact:register')
 def index(request):
     contacts = Contact.objects.filter(show=True).order_by('-id')
     paginator = Paginator(contacts, 25)
@@ -23,7 +24,7 @@ def index(request):
         context
     )
 
-
+@login_required(login_url='contact:register')
 def search(request):
     search_value = request.GET.get('q', '').strip()
     if search_value == '':
@@ -51,6 +52,7 @@ def search(request):
     )
 
 
+@login_required(login_url='contact:register')
 def contact(request, contact_id):
     single_contact = get_object_or_404(
         Contact, pk=contact_id, show=True
